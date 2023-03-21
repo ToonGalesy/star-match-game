@@ -1,22 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { utils } from '../utils/utils';
 import PlayAgain from './PlayAgain';
 import PlayNumber from './PlayNumber';
 import StarsDisplay from './StarsDisplay';
 
-const StarMatchGame = () => {
+interface Props {
+  startNewGame: () => void;
+}
+
+const StarMatchGame = (props: Props) => {
     const [stars, setStars] = useState(utils.random(1, 9));
     const [availableNums, setAvailableNums] = useState(utils.range(1, 9));
     const [candidateNums, setCandidateNums] = useState<Number[]>([]);
+    const [secondsLeft, setSecondsLeft] = useState(10);
+
+    useEffect(() => {
+      if (secondsLeft > 0 && availableNums.length > 0) {
+        const timerId = setTimeout(() => {
+          setSecondsLeft(secondsLeft -1);
+        }, 1000);
+        return () => clearTimeout(timerId);
+      }
+    });
 
     const candidatesAreWrong = utils.sum(candidateNums) > stars;
-    const gameIsDone = availableNums.length === 0;
 
-    const resetGame = () => {
-      setStars(utils.random(1, 9));
-      setAvailableNums(utils.range(1, 9));
-      setCandidateNums([]);
-    };
+    const gameStatus = availableNums.length === 0
+      ? 'won'
+      : secondsLeft === 0 ? 'lost' : 'active';
 
     const numberStatus = (number: number) => {
         if (!availableNums.includes(number)) {
@@ -29,7 +40,7 @@ const StarMatchGame = () => {
     }
 
     const onNumberClick = (number: number, currentStatus: string) => {
-      if (currentStatus === 'used') {
+      if (gameStatus !== 'active' || currentStatus === 'used') {
         return;
       }
 
@@ -57,8 +68,8 @@ const StarMatchGame = () => {
         </div>
         <div className="body">
           <div className="left">
-            {gameIsDone ? (
-              <PlayAgain onClick={resetGame} />
+            {gameStatus !== 'active' ? (
+              <PlayAgain onClick={props.startNewGame} gameStatus={gameStatus} />
             ) : (
               <StarsDisplay count={stars} />
             )}
@@ -74,7 +85,7 @@ const StarMatchGame = () => {
             )}            
           </div>
         </div>
-        <div className="timer">Time Remaining: 10</div>
+        <div className="timer">Time Remaining: {secondsLeft}</div>
       </div>
     )
 }

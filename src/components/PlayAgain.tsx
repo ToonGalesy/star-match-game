@@ -1,12 +1,19 @@
 import React from 'react';
 
 interface Props {
-    onClick: () => void
+    onClick: () => void;
+    gameStatus: string;
 }
 const PlayAgain = ( props: Props) => {
 
     return (
         <div className='game-done'>
+            <div 
+                className='message'
+                style={{ color: props.gameStatus === 'lost' ? 'red' : 'green'}}
+            >
+                {props.gameStatus === 'lost' ? 'Game Over' : ' Nice'}
+            </div>
             <button onClick={props.onClick}>Play Again</button>
         </div>
     )
