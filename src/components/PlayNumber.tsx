@@ -3,6 +3,7 @@ import React from 'react';
 interface Props {
     number: number
     status: string
+    onClick: (number: number, status: string) => void
 }
 
 const colors: any = {
@@ -17,7 +18,7 @@ const PlayNumber = (props: Props) => (
     <button 
         className="number"
         style={{backgroundColor: colors[props.status] }} 
-        onClick={() => console.log('Num', props.number)}
+        onClick={() => props.onClick(props.number, props.status)}
     >
         {props.number}
     </button>
