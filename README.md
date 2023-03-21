@@ -4,7 +4,7 @@ This project was written following the following PluralSight course, [React 17: 
 
 ## Purpose
 
-The purpose of this app is to demonstrate class based components as opposed to functional components.
+The purpose of this app is to demonstrate functional components as opposed to class based components.
 
 ## About
 
