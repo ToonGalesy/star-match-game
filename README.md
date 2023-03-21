@@ -2,6 +2,12 @@
 
 This project was written following the following PluralSight course, [React 17: Getting Started](https://app.pluralsight.com/library/courses/react-js-getting-started).
 
+## Purpose
+
+The purpose of this app is to demonstrate class based components as opposed to functional components.
+
+## About
+
 The course was written in "pure" React this version of it is written in TypeScript.
 
 There are no tests for this project as it was not part of the course.
